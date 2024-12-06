@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @Setter
-@Slf4j
+//@Slf4j
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,7 +13,7 @@ public class ItemForArray {
     private String itemName;
     private int itemPrice;
 
-    public class Main{
+    public static class Main{
         public static void main(String[] args) {
             ItemForArray item = ItemForArray.builder()
                     .itemName("인피")
