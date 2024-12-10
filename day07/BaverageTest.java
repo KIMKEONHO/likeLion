@@ -8,6 +8,5 @@ public class BaverageTest {
         Baverage coffeeLatte = new CoffeeLatte();
         coffeeLatte.prepareRecipe();
 
-
     }
 }
