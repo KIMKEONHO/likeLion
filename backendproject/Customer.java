@@ -24,14 +24,16 @@ public class Customer {
 
     public Boolean isIn(String bankNumber) throws AccountNotFoundException {
         boolean found = false;
+
         for (Account account : accounts) {
+            System.out.println(account.getBankNumber());
             if (bankNumber.equals(account.getBankNumber())) {
                 found = true;
                 return found;
             }
         }
 
-        throw new AccountNotFoundException("해당 계좌가 없습니다.");
+        return found;
     }
 
     public void createAccount(String bankNumber) {
