@@ -9,10 +9,16 @@ import lombok.*;
 @NoArgsConstructor
 public class Account {
 
+    // id값
     private int id;
+
+    // 계좌 번호
     private String bankNumber;
+
+    // 잔액
     private int balance;
 
+    // 출금
     public void outMoney(Customer customer, String bankNumber, int money) throws AccountNotFoundException {
         // 계좌 있는지 체크 로직
         customer.isIn(bankNumber);
@@ -43,6 +49,7 @@ public class Account {
         }
     }
 
+    // 입금
     public void inMoney(Customer customer, String bankNumber, int money) throws AccountNotFoundException {
 
         // 계좌 있는지 체크 로직
@@ -70,13 +77,13 @@ public class Account {
         }
     }
 
-
+    // 잔액 조회
     public void serchAccount(Customer customer,String bankNumber) throws AccountNotFoundException {
         // 계좌 있는지 체크 로직
         customer.isIn(bankNumber);
 
-        Account account = customer.findAccount(bankNumber);
+        System.out.println(bankNumber + "의 현재 잔액 : " + customer.findAccount(bankNumber).getBalance());
 
-        System.out.println(account.getBalance());
     }
+
 }

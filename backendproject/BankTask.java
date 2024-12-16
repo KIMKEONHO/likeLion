@@ -48,7 +48,6 @@ public class BankTask {
 
         int i;
 
-
         do {
             System.out.println("1. 고객 등록");
             System.out.println("2. 계좌 생성");
@@ -66,7 +65,6 @@ public class BankTask {
                     scanner.next();
                 }
             }
-
 
             switch (i) {
                 case 1:
@@ -153,7 +151,6 @@ public class BankTask {
 
                     // 잔액 조회 로직
                     account.serchAccount(nowCustomer, bankNumber);
-
                     break;
 
                 case 6:
