@@ -16,14 +16,21 @@ public class Customer {
     // 고객명
     private String name;
 
-    // 고객 id
-    private int id;
+    // db 연결을 위한 객체
+    private DatabaseConnect databaseConnect;
+
+    // 고객 주키? id
+    private int cus_id;
+
+    // id, password
+    private String user_id;
+    private String password;
 
     // 계좌 목록 리스트
     private ArrayList<Account> accounts = new ArrayList<>();
 
     // 고객 최대치 변수
-    private static final int MAX_SIZE = 5; // 최대 계좌 수
+    private static final int MAX_SIZE = 5;
 
     // 계좌 중복 체크
     public Boolean isIn(String bankNumber) throws AccountNotFoundException {
@@ -57,16 +64,20 @@ public class Customer {
                 Account account = Account.builder()
                         .balance(0)
                         .bankNumber(bankNumber)
-                        .id(getId())
+                        .id(getCus_id())
                         .build();
                 // 기존 계좌들에 추가
                 addAccount(account);
+
+                // db
+                // databaseConnect.connect();
+                // databaseConnect.insert("INSER INTO CUSTOMERS VALUES("+getId() + "," + getPassword() + "," + getName() + "," + getBankId() +""" );
             }else {
                 // 계좌 생성
                 Account account = Account.builder()
                         .balance(0)
                         .bankNumber(bankNumber)
-                        .id(getId())
+                        .id(getCus_id())
                         .build();
                 // 새로운 계좌 목록 생성
                 ArrayList<Account> accounts = new ArrayList<>();

@@ -3,6 +3,7 @@ package backendproject;
 import day09.BankException;
 import lombok.Builder;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -10,7 +11,7 @@ import java.util.Scanner;
 @Builder
 public class BankTask {
 
-    public static int insertIdDisplay(){
+    public static int insertIdDisplay() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("고객의 id를 입력해주세요 : ");
         int id;
@@ -29,10 +30,14 @@ public class BankTask {
 
     public static void main(String[] args) throws AccountNotFoundException, BankOperationException, BankException {
         ArrayList<Customer> customers = new ArrayList<>();
-        Bank bank = new Bank(customers);
+        Bank bank = new NhBank();
         Customer customer = new Customer();
         Scanner scanner = new Scanner(System.in);
         Account account = new Account();
+        DatabaseConnect db = new DatabaseConnect();
+
+        // DB 연결 테스트
+        db.connect();
 
         // 입력받을 계좌번호
         String bankNumber;
@@ -49,24 +54,24 @@ public class BankTask {
         int i;
 
         do {
-            System.out.println("1. 고객 등록");
-            System.out.println("2. 계좌 생성");
-            System.out.println("3. 입금");
-            System.out.println("4. 출금");
-            System.out.println("5. 잔액 조회");
-            System.out.println("6. 종료");
+//            System.out.println("=======사자 은행 시스템=======");
+//            System.out.println("1. 로그인");
+//            System.out.println("2. 고객등록");
+//            System.out.println("3. 관리자 로그인");
+//            System.out.println("4. 종료");
+//            System.out.println("===========================");
 
-            while (true) {
-                try {
-                    i = scanner.nextInt();
-                    break;
-                } catch (InputMismatchException e) {
-                    System.out.println("정수를 입력해야 합니다. 다시 시도하세요.");
-                    scanner.next();
-                }
-            }
+            i = insertIdDisplay();
+
+//            System.out.println("1. 고객 등록");
+//            System.out.println("2. 계좌 생성");
+//            System.out.println("3. 입금");
+//            System.out.println("4. 출금");
+//            System.out.println("5. 잔액 조회");
+//            System.out.println("6. 종료");
 
             switch (i) {
+
                 case 1:
                     System.out.println("고객 등록을 선택하셨습니다.");
 
@@ -112,7 +117,7 @@ public class BankTask {
                     account = nowCustomer.findAccount(bankNumber);
 
                     // 계좌에 입금하기
-                    account.inMoney(nowCustomer,bankNumber,money);
+                    account.inMoney(nowCustomer, bankNumber, money);
                     break;
 
                 case 4:

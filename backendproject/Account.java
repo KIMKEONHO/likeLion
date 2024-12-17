@@ -85,5 +85,4 @@ public class Account {
         System.out.println(bankNumber + "의 현재 잔액 : " + customer.findAccount(bankNumber).getBalance());
 
     }
-
 }
