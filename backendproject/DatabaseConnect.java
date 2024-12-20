@@ -3,13 +3,31 @@ package backendproject;
 import java.sql.*;
 
 public class DatabaseConnect {
-    private final static String jdbcURL = "jdbc:mysql://localhost:3306/like_lion_bootcamp?serverTimezone=UTC";
-    private final static String dbUser = "jerry6475";
-    private final static String dbPassword = "qwer1234";
+    private final static String jdbcURL = "jdbc:mysql://localhost:3306/BankSystem?serverTimezone=UTC";
+    private final static String dbUser = "root";
+    private final static String dbPassword = "1234";
+
+    private static volatile DatabaseConnect instance; // 싱글턴 인스턴스
 
     protected Connection conn = null;
     protected PreparedStatement pstmt = null;
     protected ResultSet rs = null;
+
+    // 싱글턴 인스턴스 반환
+    // 더블 락 체크 방식
+    public static DatabaseConnect getInstance() {
+        if (instance == null) {
+            synchronized (DatabaseConnect.class) {
+                if (instance == null) {
+                    instance = new DatabaseConnect();
+                }
+            }
+        }
+        return instance;
+    }
+
+    // 생성자로 객체 생성을 못하게 막기 위한 private 선언
+    private DatabaseConnect() {}
 
     // DB 연결
     public void connect() {
@@ -34,12 +52,13 @@ public class DatabaseConnect {
     }
 
     // 삽입
-    public void insert(String sql, String... params) {
+    public void insert(String sql, Object... params) {
         try {
             connect();
             pstmt = conn.prepareStatement(sql);
             setParameters(pstmt, params);
             pstmt.executeUpdate();
+            System.out.println("Inserted records successfully!");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -48,7 +67,7 @@ public class DatabaseConnect {
     }
 
     // 업데이트
-    public void update(String sql, String... params) {
+    public void update(String sql, Object... params) {
         try {
             connect();
             pstmt = conn.prepareStatement(sql);
@@ -62,7 +81,7 @@ public class DatabaseConnect {
     }
 
     // 삭제
-    public void delete(String sql, String... params) {
+    public void delete(String sql, Object... params) {
         try {
             connect();
             pstmt = conn.prepareStatement(sql);
@@ -76,25 +95,22 @@ public class DatabaseConnect {
     }
 
     // 읽기
-    public void read(String sql, String... params) {
+    public ResultSet read(String sql, Object... params) {
         try {
             connect();
             pstmt = conn.prepareStatement(sql);
             setParameters(pstmt, params);
             rs = pstmt.executeQuery();
 
-            while (rs.next()) {
-                System.out.println("Result: " + rs.getString(1));
-            }
+            return rs;
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            close();
         }
+        return null;
     }
 
     // PreparedStatement 파라미터 설정
-    private void setParameters(PreparedStatement pstmt, String... params) throws SQLException {
+    private void setParameters(PreparedStatement pstmt, Object... params) throws SQLException {
         for (int i = 0; i < params.length; i++) {
             pstmt.setObject(i + 1, params[i]);
         }

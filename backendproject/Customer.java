@@ -2,6 +2,8 @@ package backendproject;
 
 import lombok.*;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -17,7 +19,7 @@ public class Customer {
     private String name;
 
     // db 연결을 위한 객체
-    private DatabaseConnect databaseConnect;
+    private DatabaseConnect db = DatabaseConnect.getInstance();
 
     // 고객 주키? id
     private int cus_id;
@@ -29,8 +31,8 @@ public class Customer {
     // 계좌 목록 리스트
     private ArrayList<Account> accounts = new ArrayList<>();
 
-    // 고객 최대치 변수
-    private static final int MAX_SIZE = 5;
+    // 계좌 최대치 변수
+    private static final int ACC_MAX_SIZE = 5;
 
     // 계좌 중복 체크
     public Boolean isIn(String bankNumber) throws AccountNotFoundException {
@@ -53,7 +55,7 @@ public class Customer {
             // 빈 계좌인지 체크
             if(getAccounts() != null) {
                 // 게좌가 5개 이상인지 체크
-                if (getAccounts().size() >= MAX_SIZE) {
+                if (getAccounts().size() >= ACC_MAX_SIZE) {
                     throw new AccountNotFoundException("이미 5개의 계좌가 있습니다.");
                 }
                 // 중복된 계좌인지 체크
@@ -115,4 +117,23 @@ public class Customer {
 
     // 계좌 추가
     public void addAccount(Account a) {accounts.add(a);}
+
+    public boolean login(String inputId, String inputPassword) throws SQLException {
+        ResultSet rs = null;
+        db.connect();
+        String sql = "select user_id, user_password from CUSTOMERS where user_id = ?";
+
+        rs = db.read(sql,inputId);
+
+        if (rs != null && rs.next()) {
+            if (user_id.equals(rs.getString("user_id"))){
+                if (rs.getString("user_password").equals(inputPassword)) {
+                    return true;
+                }
+            }
+        }
+
+        db.close();
+        return false;
+    }
 }
