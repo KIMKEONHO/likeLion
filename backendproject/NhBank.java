@@ -2,6 +2,7 @@ package backendproject;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class NhBank implements Bank {
 
@@ -63,11 +64,27 @@ public class NhBank implements Bank {
 
                 db.insert(sql,id,pw,name,bankId);
 
-                // 목록 출력
+//                목록 출력
 //                Bank.super.showCustomersDiplay();
             }catch (BankOperationException e) {
                 System.out.println(e.getMessage());
             }
     }
 
+    @Override
+    public String createAccountNumber() {
+        Random random = new Random();
+
+        // YYY 부분 생성 (3자리 숫자)
+        String yyy = String.format("%03d", random.nextInt(1000));
+        // ZZZZ 부분 생성 (4자리 숫자)
+        String zzzz1 = String.format("%04d", random.nextInt(10000));
+        String zzzz2 = String.format("%04d", random.nextInt(10000));
+
+        // CT 부분 생성 (2자리 문자)
+        String ct = String.format("%02d", random.nextInt(100));
+
+        // 최종 계좌번호 생성
+        return String.format("%s-%s-%s-%s", yyy, zzzz1, zzzz2, ct);
+    }
 }

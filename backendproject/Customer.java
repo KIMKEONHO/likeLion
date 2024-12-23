@@ -118,22 +118,4 @@ public class Customer {
     // 계좌 추가
     public void addAccount(Account a) {accounts.add(a);}
 
-    public boolean login(String inputId, String inputPassword) throws SQLException {
-        ResultSet rs = null;
-        db.connect();
-        String sql = "select user_id, user_password from CUSTOMERS where user_id = ?";
-
-        rs = db.read(sql,inputId);
-
-        if (rs != null && rs.next()) {
-            if (user_id.equals(rs.getString("user_id"))){
-                if (rs.getString("user_password").equals(inputPassword)) {
-                    return true;
-                }
-            }
-        }
-
-        db.close();
-        return false;
-    }
 }

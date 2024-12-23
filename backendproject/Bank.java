@@ -28,6 +28,8 @@ public interface Bank {
     // 고객 저장
     void saveCustomer(String name, String id, String pw, int bankId);
 
+    String createAccountNumber();
+
     // 고객 목록 출력 Display
     default void showCustomersDiplay() {
         System.out.println("-------- 현재 고객 정보 --------");
@@ -35,7 +37,6 @@ public interface Bank {
             System.out.println(c.getName());
         }
         System.out.println("------------------------------");
-
     }
 
     default void showAllBank() throws SQLException {
@@ -52,7 +53,8 @@ public interface Bank {
             int i = 1;
             do {
                 System.out.println(i + ". " + rs.getString("bank_name")); // 첫 번째 결과 출력
-            } while (rs.next()); // 다음 결과로 이동
+                i+=1;
+            } while (rs.next());
         }
 
         db.close();
