@@ -1,12 +1,9 @@
 package backendproject;
 
+import backendproject.Exception.AccountNotFoundException;
 import lombok.*;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 @Getter
 @Setter

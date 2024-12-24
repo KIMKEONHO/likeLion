@@ -1,4 +1,4 @@
-package backendproject;
+package backendproject.Exception;
 
 public class BankOperationException extends Exception{
     public BankOperationException(String message){

@@ -1,5 +1,7 @@
 package backendproject;
 
+import backendproject.Exception.BankOperationException;
+
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.*;
@@ -17,7 +19,7 @@ public interface Bank {
     ArrayList<Customer> getCustomers();
 
     // 고객 추가
-    void addCustomer(Customer customer) throws BankOperationException ;
+    void addCustomer(Customer customer) throws BankOperationException;
 
     // 고객 검색
     Customer findCustomer(int i) throws BankOperationException ;

@@ -1,4 +1,4 @@
-package backendproject;
+package backendproject.Exception;
 
 public class AccountNotFoundException extends Exception {
 
