@@ -30,14 +30,7 @@ public class NhBank implements Bank {
     // 고객 검색
     @Override
     public Customer findCustomer(int i) throws BankOperationException {
-        Customer returnCustomer = null;
-        for (Customer customer : customers) {
-            if (customer.getCus_id() == i) {
-                returnCustomer = customer;
-                return returnCustomer;
-            }
-        }
-        throw new BankOperationException("없는 고객입니다.");
+        return null;
     }
 
     // 고객 중복 체크
