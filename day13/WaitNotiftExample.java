@@ -1,7 +1,5 @@
 package day13;
 
-import backendproject.Customer;
-
 public class WaitNotiftExample {
     static class Producer extends Thread {
         public void run() {
