@@ -1,8 +1,9 @@
-package backendproject;
+package backendproject.Repository;
 
 import java.sql.*;
 
 public class DatabaseConnect {
+
     private final static String jdbcURL = "jdbc:mysql://localhost:3306/BankSystem?serverTimezone=UTC";
     private final static String dbUser = "root";
     private final static String dbPassword = "1234";

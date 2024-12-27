@@ -1,26 +1,28 @@
-package backendproject;
+package backendproject.Service;
 
+import backendproject.Repository.DatabaseConnect;
+import backendproject.Dto.CustomerDto;
 import backendproject.Exception.BankOperationException;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class NhBank implements Bank {
+public class NhBankService implements BankService {
 
     // 고객들 정보를 담은 리스트
-    ArrayList<Customer> customers = new ArrayList<>();
+    ArrayList<CustomerDto> customers = new ArrayList<>();
     private DatabaseConnect db = DatabaseConnect.getInstance();
     private ResultSet rs = null;
 
     @Override
-    public ArrayList<Customer> getCustomers() {
+    public ArrayList<CustomerDto> getCustomers() {
         return null;
     }
 
     // 고객 추가
     @Override
-    public void addCustomer(Customer customer) throws BankOperationException {
+    public void addCustomer(CustomerDto customer) throws BankOperationException {
         if (customers.size() == CUS_MAX_SIZE) {
             throw new BankOperationException("최대 고객 제한을 초과했습니다.");
         }
@@ -29,7 +31,7 @@ public class NhBank implements Bank {
 
     // 고객 검색
     @Override
-    public Customer findCustomer(int i) throws BankOperationException {
+    public CustomerDto findCustomer(int i) throws BankOperationException {
         return null;
     }
 

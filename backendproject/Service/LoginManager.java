@@ -1,20 +1,26 @@
-package backendproject;
+package backendproject.Service;
 
+import backendproject.Repository.DatabaseConnect;
+import backendproject.Dto.AccountDto;
+import backendproject.Repository.CustomerRepository;
 import lombok.Getter;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 @Getter
 public class LoginManager {
     private static LoginManager instance;
 
     private String loggedInUserId; // 로그인한 사용자 ID
-    private int seq;
+    private int seq;  // db에 저장된 사용자의 키값
     private DatabaseConnect db;
+    private ArrayList<AccountDto> accounts;
+
+    private CustomerRepository customerRepository = new CustomerRepository();
 
     private LoginManager() {
-        db = DatabaseConnect.getInstance();
+
     }
 
     public static synchronized LoginManager getInstance() {
@@ -25,23 +31,12 @@ public class LoginManager {
     }
 
     public boolean login(String inputId, String inputPassword) throws SQLException {
-        ResultSet rs = null;
-        db.connect();
-        String sql = "SELECT seq, user_id, user_password FROM CUSTOMERS WHERE user_id = ?";
-
-        rs = db.read(sql, inputId);
-
-        if (rs != null && rs.next()) {
-            if (inputId.equals(rs.getString("user_id"))) {
-                if (rs.getString("user_password").equals(inputPassword)) {
-                    loggedInUserId = inputId;
-                    seq = rs.getInt("seq");
-                    return true;
-                }
-            }
+        if (customerRepository.validateUser(inputId, inputPassword)) {
+            loggedInUserId = inputId;
+            seq = customerRepository.getUserSeq(inputId);
+            accounts = customerRepository.getUserAccounts(inputId);
+            return true;
         }
-
-        db.close();
         return false;
     }
 

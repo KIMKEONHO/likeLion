@@ -1,6 +1,8 @@
 package backendproject;
 
-import day09.BankException;
+import backendproject.Service.BankService;
+import backendproject.Service.NhBankService;
+import backendproject.Util.MenuOption;
 import lombok.Builder;
 
 import java.sql.SQLException;
@@ -8,10 +10,9 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 @Builder
-public class BankTask {
+public class Application {
 
     public static void main(String[] args) {
-        Bank bank = new NhBank();
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("=======사자 은행 시스템=======");
@@ -26,9 +27,9 @@ public class BankTask {
             try {
                 i = scanner.nextInt();
                 if (i == 1) {
-                    MenuOption.handleLogin(scanner, bank);
+                    MenuOption.handleLogin(scanner);
                 } else if (i == 2) {
-                    MenuOption.handleCustomerRegistration(scanner, bank);
+                    MenuOption.handleCustomerRegistration(scanner);
                 } else if (i == 3) {
                     // 관리자 로그인
                 } else if (i == 4) {
