@@ -5,8 +5,6 @@ import backendproject.Dto.CustomerDto;
 import backendproject.Exception.AccountNotFoundException;
 import backendproject.Repository.AccountRepository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static backendproject.Util.AccountUtil.allAccountDisplay;

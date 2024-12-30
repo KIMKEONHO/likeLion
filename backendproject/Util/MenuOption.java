@@ -1,17 +1,14 @@
 package backendproject.Util;
 
-import backendproject.Dto.AccountDto;
 import backendproject.Service.AccountService;
 import backendproject.Service.NhBankService;
 import backendproject.Service.BankService;
-import backendproject.Dto.CustomerDto;
 import backendproject.Exception.AccountNotFoundException;
 import backendproject.Exception.BankOperationException;
 import backendproject.Service.LoginManager;
 import lombok.Getter;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -60,14 +57,25 @@ public enum MenuOption {
     },
     WITHDRAW(3){
         @Override
-        public void executeMenuOption(Scanner scanner) {
+        public void executeMenuOption(Scanner scanner) throws AccountNotFoundException {
+            System.out.println("출금을 선택하셨습니다.");
+
+            allAccountDisplay();
+
+            System.out.print("입금을 원하는 계좌를 입력해주세요 : ");
+            String banknumber = scanner.next();
+
+            System.out.print("원하시는 금액을 입력해주세요 : ");
+            int money = scanner.nextInt();
+            accountService.withdraw(banknumber, money);
 
         }
     },
     VIEW_BALANCE(4){
         @Override
-        public void executeMenuOption(Scanner scanner) {
-
+        public void executeMenuOption(Scanner scanner) throws AccountNotFoundException {
+            System.out.println("현재 고객님의 모든 계좌의 잔액을 조회합니다.");
+            accountService.serchAccount();
         }
     },
     EXIT(5){

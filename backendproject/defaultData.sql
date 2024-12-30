@@ -25,3 +25,5 @@ INSERT INTO bank(bank_name) VALUES("농협 은행");
 INSERT INTO bank(bank_name) VALUES("신한 은행");
 INSERT INTO bank(bank_name) VALUES("부산 은행");
 INSERT INTO bank(bank_name) VALUES("하나 은행");
+
+INSERT INTO CUSTOMERS(user_id, user_password, user_name, bank_id) values ("jerry6475", "asd", "김건호", 1);

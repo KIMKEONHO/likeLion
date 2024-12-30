@@ -16,6 +16,13 @@ public class AccountRepository {
         db.close();
     }
 
+    public void withdraw(int balance, String banknumber){
+        db.connect();
+        String sql = "UPDATE account SET balance = ? where seq = ?";
+        db.update(sql, balance, getseq(banknumber));
+        db.close();
+    }
+
     public int getseq(String banknumber){
         ArrayList<AccountDto> accounts = LoginManager.getInstance().getAccounts();
         for(AccountDto account : accounts){
@@ -32,8 +39,5 @@ public class AccountRepository {
         db.connect();
         db.insert(sql,LoginManager.getInstance().getSeq(), banknumber, 0);
         db.close();
-        System.out.println("계좌 번호 : " + banknumber + " 생성 완료!");
-        System.out.println("다음 작업을 진행해주세요.");
-        System.out.println("==============================");
     }
 }

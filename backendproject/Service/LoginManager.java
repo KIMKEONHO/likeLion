@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 @Getter
 public class LoginManager {
-    private static LoginManager instance;
+    private volatile static LoginManager instance;
 
     private String loggedInUserId; // 로그인한 사용자 ID
     private int seq;  // db에 저장된 사용자의 키값
@@ -23,13 +23,16 @@ public class LoginManager {
 
     }
 
-    public static synchronized LoginManager getInstance() {
+    public static LoginManager getInstance() {
         if (instance == null) {
-            instance = new LoginManager();
+            synchronized (DatabaseConnect.class) {
+                if (instance == null) {
+                    instance = new LoginManager();
+                }
+            }
         }
         return instance;
     }
-
     public boolean login(String inputId, String inputPassword) throws SQLException {
         if (customerRepository.validateUser(inputId, inputPassword)) {
             loggedInUserId = inputId;

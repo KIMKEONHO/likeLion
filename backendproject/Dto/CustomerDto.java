@@ -1,12 +1,8 @@
 package backendproject.Dto;
 
 import backendproject.Repository.DatabaseConnect;
-import backendproject.Exception.AccountNotFoundException;
-import backendproject.Service.LoginManager;
 import lombok.*;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 @Setter

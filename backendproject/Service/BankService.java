@@ -11,7 +11,6 @@ import java.sql.*;
 
 public interface BankService {
     DatabaseConnect db = DatabaseConnect.getInstance();
-    BankRepository bankRepo = new BankRepository();
 
     // 고객 수 제한
     final static int CUS_MAX_SIZE = 10;
@@ -35,14 +34,5 @@ public interface BankService {
     void saveCustomer(String name, String id, String pw, int bankId);
 
     String createAccountNumber();
-
-    // 고객 목록 출력 Display
-    default void showCustomersDiplay() {
-        System.out.println("-------- 현재 고객 정보 --------");
-        for (CustomerDto c : getCustomers()) {
-            System.out.println(c.getName());
-        }
-        System.out.println("------------------------------");
-    }
 
 }
