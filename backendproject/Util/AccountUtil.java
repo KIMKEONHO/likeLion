@@ -14,4 +14,11 @@ public class AccountUtil {
         }
         System.out.println("===================================");
     }
+
+    public static void displayAccountChangeSuccess(AccountDto account){
+        System.out.println("현재 " + account.getBankNumber() + "계좌의 잔액 : " + account.getBalance());
+
+        System.out.println("다음 작업을 선택하세요.");
+        System.out.println("===================================");
+    }
 }

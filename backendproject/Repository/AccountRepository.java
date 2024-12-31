@@ -9,14 +9,7 @@ public class AccountRepository {
 
     private DatabaseConnect db = DatabaseConnect.getInstance();
 
-    public void deposit(int balance, String banknumber){
-        db.connect();
-        String sql = "UPDATE account SET balance = ? where seq = ?";
-        db.update(sql, balance, getseq(banknumber));
-        db.close();
-    }
-
-    public void withdraw(int balance, String banknumber){
+    public void updateBalance(int balance, String banknumber){
         db.connect();
         String sql = "UPDATE account SET balance = ? where seq = ?";
         db.update(sql, balance, getseq(banknumber));

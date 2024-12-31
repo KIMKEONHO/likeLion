@@ -1,37 +1,39 @@
 package backendproject.Service;
 
-import backendproject.Repository.BankRepository;
+import backendproject.Repository.CustomerRepository;
 import backendproject.Repository.DatabaseConnect;
-import backendproject.Dto.CustomerDto;
 import backendproject.Exception.BankOperationException;
 
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.sql.*;
 
 public interface BankService {
     DatabaseConnect db = DatabaseConnect.getInstance();
+    CustomerRepository customerRepo = new CustomerRepository();
 
     // 고객 수 제한
     final static int CUS_MAX_SIZE = 10;
 
-    // 고객들 정보를 담은 리스트
-    ArrayList<CustomerDto> customers = new ArrayList<>();
-
-    // 고객들 리스트 반환
-    ArrayList<CustomerDto> getCustomers();
-
-    // 고객 추가
-    void addCustomer(CustomerDto customer) throws BankOperationException;
-
-    // 고객 검색
-    CustomerDto findCustomer(int i) throws BankOperationException ;
-
     // 고객 중복 체크
-    boolean isIn(String userId);
+    default boolean isIn(String inputId,String inputPw) throws SQLException {
+        boolean real = customerRepo.validateUser(inputId,inputPw);
+        return real;
+    }
 
     // 고객 저장
-    void saveCustomer(String name, String id, String pw, int bankId);
+    default void saveCustomer(String name, String id, String pw, int bankId){
+        try {
+            // 중복 체크
+            if (isIn(id,pw)) {
+                throw new BankOperationException("이미 존재하는 ID입니다. (다른 아이디를 입력해주세요.)");
+            }
+            String sql = "INSERT INTO customers (user_id, user_password, user_name, bank_id) VALUES (?,?,?,?)";
+            db.insert(sql, id, pw, name, bankId);
+        } catch (BankOperationException e) {
+            System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     String createAccountNumber();
 

@@ -1,11 +1,8 @@
 package backendproject.Util;
 
-import backendproject.Service.AccountService;
-import backendproject.Service.NhBankService;
-import backendproject.Service.BankService;
+import backendproject.Service.*;
 import backendproject.Exception.AccountNotFoundException;
 import backendproject.Exception.BankOperationException;
-import backendproject.Service.LoginManager;
 import lombok.Getter;
 
 import java.sql.SQLException;
@@ -19,25 +16,12 @@ public enum MenuOption {
 
     CREATE_ACCOUNT(1){
         @Override
-        public void executeMenuOption(Scanner scanner) throws SQLException {
+        public void executeMenuOption(Scanner scanner) throws SQLException, AccountNotFoundException {
             System.out.println("계좌 생성을 선택하셨습니다.");
 
-            BankService bank = null;
+            BankService bank = BankUtil.returnInputBank(scanner);
 
-            BankUtil bankUtil = new BankUtil();
-
-            bankUtil.showAllBank();
-
-            System.out.print("생성하고자 하는 은행 입력하세요: ");
-            int i = scanner.nextInt();
-
-            switch (i){
-                case 1:
-                    bank = new NhBankService();
-                    // ...  기타 은행들 //
-            }
-            assert bank != null;
-            accountService.createAccount(bank.createAccountNumber());
+            customerService.createAccount(bank.createAccountNumber());
         }
     },
     DEPOSIT(2){
@@ -68,7 +52,6 @@ public enum MenuOption {
             System.out.print("원하시는 금액을 입력해주세요 : ");
             int money = scanner.nextInt();
             accountService.withdraw(banknumber, money);
-
         }
     },
     VIEW_BALANCE(4){
@@ -87,6 +70,7 @@ public enum MenuOption {
     }
     ;
 
+    private static CustomerService customerService = new CustomerService();
     private static AccountService accountService = new AccountService();
     private final int option;
     private static LoginManager loginManager = LoginManager.getInstance();
@@ -169,10 +153,7 @@ public enum MenuOption {
         System.out.print("고객의 PW를 입력하세요 : ");
         String password = scanner.next();
 
-        BankUtil bankUtil = new BankUtil();
-        bankUtil.showAllBank();
-        System.out.print("원하시는 은행을 선택하세요(정수로) : ");
-        int bankId = scanner.nextInt();
+        BankService bank = BankUtil.returnInputBank(scanner);
 
 //        bank.saveCustomer(name, id, password, bankId);
     }
