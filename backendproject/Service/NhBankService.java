@@ -1,10 +1,6 @@
 package backendproject.Service;
 
-import backendproject.Repository.DatabaseConnect;
 import backendproject.Dto.CustomerDto;
-import backendproject.Exception.BankOperationException;
-
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Random;
 

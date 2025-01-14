@@ -84,3 +84,6 @@ const drawCat2 = () => {
     console.log("   \\___/   ");
   }
 };
+
+const me = {name : "김건호", age : 25};
+

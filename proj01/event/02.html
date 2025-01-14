@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="button-a">ButtonA</button>
+    <button id="button-b">ButtonB</button>
+
+    <h1>Button A - <span id="counter-a">0</span></h1>
+    <h1>Button B - <span id="counter-b">0</span></h1>
+
+    <script>
+      function incrementFunc(id) {
+        const counter = document.getElementById(id);
+        const n = parseInt(counter.innerHTML);
+        counter.innerHTML = n + 1;
+      }
+
+      const btn_a = document.getElementById("button-a");
+      btn_a.addEventListener("click", () => incrementFunc("counter-a"));
+
+      const btn_b = document.getElementById("button-b");
+      btn_b.addEventListener("click", () => incrementFunc("counter-b"));
+    </script>
+  </body>
+</html>
