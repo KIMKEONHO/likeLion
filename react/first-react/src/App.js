@@ -6,6 +6,8 @@ import Welcome from "./Welcome";
 import ChildrenExam from "./component/propsChildren/ChildrenExam";
 import UseStateExam1 from "./component/useState/UseStateExam1";
 import UseStateExam2 from "./component/useState/UseStateExam2";
+import NoteBox from "./note/NoteBox";
+import Note from "./note/Note";
 
 function App() {
   console.log("App 컴포넌트 실행!! ");
@@ -20,7 +22,7 @@ function App() {
 
       {/* <MyInputBox /> */}
       {/* <UseStateExam1 /> */}
-      <UseStateExam2 />
+      <NoteBox />
     </div>
   );
 }

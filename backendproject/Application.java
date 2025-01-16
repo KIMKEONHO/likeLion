@@ -1,8 +1,6 @@
 package backendproject;
 
-import backendproject.Service.BankService;
-import backendproject.Service.NhBankService;
-import backendproject.Util.MenuOption;
+import BankProject.src.main.java.com.example.demo.Util.MenuOption;
 import lombok.Builder;
 
 import java.sql.SQLException;

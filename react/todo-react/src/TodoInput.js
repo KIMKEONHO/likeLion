@@ -1,10 +1,10 @@
-const TodoInput = ({ addTodoList }) => {
+const TodoInput = ({ addTodo }) => {
   const keyDownHandler = (e) => {
     console.log(e.key);
     if (e.key === "Enter") {
       console.log(e.target.value);
       if (e.target.value === "") return;
-      addTodoList(e.target.value);
+      addTodo(e.target.value);
       e.target.value = "";
     }
   };
