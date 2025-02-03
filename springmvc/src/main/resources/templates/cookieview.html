@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쿠키 보기</title>
+</head>
+<body>
+<h1>저장된 쿠키 목록</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>쿠키 이름</th>
+        <th>쿠키 값</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 쿠키가 존재하는 경우 -->
+    <tr th:each="cookie : ${cookies}">
+        <td th:text="${cookie.name}"></td>
+        <td th:text="${cookie.value}"></td>
+    </tr>
+    <!-- 쿠키가 없을 경우 -->
+    <tr th:if="${cookies == null}">
+        <td colspan="2">저장된 쿠키가 없습니다.</td>
+    </tr>
+    </tbody>
+</table>
+<a href="/cookieSetForm">쿠키 추가하기</a>
+</body>
+</html>
