@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="mt-5">문제가 발생했습니다!</h1>
+    <div class="alert alert-danger mt-3" th:if="${msg != null}">
+        <strong>오류 메시지:</strong> <span th:text="${msg}"></span>
+    </div>
+    <a class="btn btn-primary" href="/">홈으로 돌아가기</a>
+</div>
+</body>
+</html>
