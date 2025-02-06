@@ -18,7 +18,7 @@ public class exam01 {
 
         Runnable runnable2 = () -> System.out.println("hello");
 
-        new Thread(runnable2).start();
+        new Thread((runnable2)).start();
     }
 
 }
