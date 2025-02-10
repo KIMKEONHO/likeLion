@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail of Board</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}">
+</head>
+<body>
+<div class="card">
+    <h2 th:text="${boardDetail.title}"></h2>
+    <p><strong>Name:</strong> <span th:text="${boardDetail.name}"></span></p>
+    <p><strong>Content:</strong> <span th:text="${boardDetail.content}"></span></p>
+    <p><strong>Created At:</strong> <span th:text="${boardDetail.createdAt}"></span></p>
+    <p th:text="${boardDetail.content}"></p>
+</div>
+
+<div class="button-group">
+    <a th:href="@{/board/list}" class="button">목록으로</a>
+    <a th:href="@{/board/update(id=${boardDetail.id})}" class="button">수정</a>
+    <a th:href="@{/board/delete(id=${boardDetail.id})}" class="button">삭제</a>
+</div>
+</body>
+</html>

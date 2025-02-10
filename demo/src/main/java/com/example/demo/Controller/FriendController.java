@@ -4,6 +4,8 @@ import com.example.demo.Domain.Friend;
 import com.example.demo.Service.FriendService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +18,20 @@ public class FriendController {
     private final FriendService friendService;
 
     @GetMapping("/list")
-    public String list(Model model){
-
-        model.addAttribute("friends", friendService.findAllFriend());
+    public String list(Model model,
+                       @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                       @RequestParam(name = "size", required = false, defaultValue = "5") int size){
+        Pageable pageable = PageRequest.of(page - 1, size);
+        model.addAttribute("friends", friendService.findAllFriend(pageable));
+        model.addAttribute("currentPage", page);
         return "friends/list";
     }
+
+//    @GetMapping("/list")
+//    public String list(Model model){
+//        model.addAttribute("friends", friendService.findAllFriend());
+//        return "friends/list";
+//    }
 
     @GetMapping("/add")
     public String showAddForm(Model model){

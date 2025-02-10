@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Friend Home</title>
+    <link rel="stylesheet" th:href="@{/css/writeform.css}">
+</head>
+
+<body>
+<div class="card">
+    <h1>Delete Board</h1>
+
+    <div th:if="${error}" style="color: red;">
+        <p th:text="${error}"></p>
+    </div>
+
+    <form th:action="@{/board/delete}" method="post" th:object="${board}">
+        <input type="hidden" th:field="*{id}" />
+        <label for="password">Password (for verification):</label>
+        <input type="password" id="password" th:field="*{password}" required>
+        <button type="submit">delete</button>
+    </form>
+</div>
+</body>
+</html>
