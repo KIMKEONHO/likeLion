@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Friend Home</title>
+</head>
+<body>
+<h1>이메일 수정</h1>
+<form th:action="@{/friends/add}" method="post" th:object="${friend}">
+  <input type="hidden" th:field="*{id}"/>
+  <input type="hidden" th:field="*{name}"/>
+  <label for = "email">이메일 :  </label>
+  <input type="text" id = "email" th:field="*{email}" required>
+  <button type="submit">이메일 변경</button>
+</form>
+</body>
+</html>
