@@ -22,3 +22,22 @@ INSERT INTO board (name, title, password, content) VALUES
                                                        ('정태웅', '초보자를 위한 운동 루틴', 'password123', '운동을 막 시작한 사람들을 위한 효과적인 운동 루틴을 소개합니다.'),
                                                        ('김서영', '지역 뉴스 업데이트', 'password123', '최신 지역 뉴스를 업데이트합니다.'),
                                                        ('남주혁', '새로운 영화 개봉', 'password123', '이번 주말 개봉하는 새로운 영화들을 확인해보세요.');
+
+DROP TABLE IF EXISTS boarduser;
+
+CREATE TABLE boarduser(
+                          seq INT AUTO_INCREMENT PRIMARY KEY,
+                          user_id VARCHAR(50) NOT NULL,
+                          user_password VARCHAR(50) NOT NULL,
+                          user_name VARCHAR(100) NOT NULL,
+                          age INT NOT NULL,
+                          address VARCHAR(100)
+);
+
+INSERT INTO boarduser (user_id, user_password,user_name, age, address) VALUES
+                                                                           ('aaa', '1234', 'kim', 20, '서울'),
+                                                                           ('bbb', '1234', 'kang', 21, '수원'),
+                                                                           ('ccc', '1234', 'hong', 22, '강남'),
+                                                                           ('ddd', '1234', 'park', 23, '부산'),
+                                                                           ('eee', '1234', 'lee', 24, '창원'),
+                                                                           ('fff', '1234', 'seok', 25, '평택');

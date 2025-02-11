@@ -25,10 +25,7 @@
         <label for="content">Content :</label>
         <textarea id="content" th:field="*{content}" required rows="4" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 15px;"></textarea>
 
-
-        <input  th:field="*{createdAt}" th:value="${#temporals.format(board.createdAt, 'yyyy-MM-dd HH:mm:ss')}" />
-        <div th:text="${board.createdAt}"></div>
-
+        <input type="hidden" th:field="*{createdAt}" th:value="${#temporals.format(board.createdAt, 'yyyy-MM-dd HH:mm:ss')}" />
 
         <label for="password">Password (for verification):</label>
         <input type="password" id="password" th:field="*{password}" required>

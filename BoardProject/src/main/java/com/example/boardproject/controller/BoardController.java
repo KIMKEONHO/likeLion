@@ -84,12 +84,14 @@ public class BoardController {
 
     @PostMapping("/update")
     public String updateBoard(@ModelAttribute("board") Board board, RedirectAttributes redirectAttributes){
-        System.out.println(board.getCreatedAt());
+
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Board real = boardService.findBoardById(board.getId());
 
         String storedHash = real.getPassword();
         String rawPassword = board.getPassword();
+
+        board.setCreatedAt(real.getCreatedAt());
 
         boolean isPasswordMatch = passwordEncoder.matches(rawPassword, storedHash);
         if (isPasswordMatch) {
