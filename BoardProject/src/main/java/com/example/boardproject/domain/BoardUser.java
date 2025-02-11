@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class BoardUser {
 
     @Id

@@ -5,19 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>회원 가입</title>
     <link rel="stylesheet" th:href="@{/css/signup.css}" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script th:src="@{/js/signup.js}"></script> <!-- 외부 JS 파일 연결 -->
-</head>
 <body>
 <div>
     <h2>회원 가입</h2>
     <form th:action="@{/signup}" method="post" th:object="${user}">
-        <div>
-            <input type="text" th:field="*{user_id}" placeholder="아이디" required />
-            <button type="button" id="checkIdButton">중복 검사</button>
-            <div id="idCheckResult"></div> <!-- 중복 검사 결과 표시 -->
-            <div th:if="${#fields.hasErrors('user_id')}" th:errors="*{user_id}"></div>
-        </div>
+        <input type="text" th:field="*{user_id}" placeholder="아이디" required />
+        <div th:if="${#fields.hasErrors('user_id')}" th:errors="*{user_id}"></div>
 
         <input type="password" th:field="*{user_password}" placeholder="비밀번호" required />
         <div th:if="${#fields.hasErrors('user_password')}" th:errors="*{user_password}"></div>

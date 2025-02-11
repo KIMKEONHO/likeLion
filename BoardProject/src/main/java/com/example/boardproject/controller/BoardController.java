@@ -66,7 +66,6 @@ public class BoardController {
 
         boolean isPasswordMatch = passwordEncoder.matches(rawPassword, storedHash);
         if (isPasswordMatch) {
-            board.setPassword(storedHash);
             boardService.deleteBoardById(board.getId());
             return "redirect:/board/list";
         } else {
@@ -77,7 +76,6 @@ public class BoardController {
 
     @GetMapping("/update")
     public String showUpdateForm(@RequestParam("id") Long id, Model model){
-        System.out.println(boardService.findBoardById(id).getCreatedAt());
         model.addAttribute("board", boardService.findBoardById(id));
         return "board/update";
     }
