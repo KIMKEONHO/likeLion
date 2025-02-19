@@ -1,4 +1,4 @@
-package jdbc01;
+package springjdbc.src.main.java.jdbc01;
 
 import lombok.*;
 

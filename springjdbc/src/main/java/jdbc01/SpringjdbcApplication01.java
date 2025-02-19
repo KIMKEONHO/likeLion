@@ -1,4 +1,4 @@
-package jdbc01;
+package springjdbc.src.main.java.jdbc01;
 
 import com.example.springjdbc.SpringjdbcApplication;
 import org.springframework.beans.factory.annotation.Autowired;
