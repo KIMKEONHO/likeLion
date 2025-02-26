@@ -17,6 +17,8 @@ spring:
       ddl-auto: update
       show-sql: true
 
-
+springdoc:
+  api-docs:
+    enabled: true
 #server:
 #  port: 80
