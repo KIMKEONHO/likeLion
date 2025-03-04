@@ -5,9 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class UserInfoController {
-
-    @GetMapping("userinfo")
-    public String userinfo() {
-        return "user-info";
+    @GetMapping("/userinfo")
+    public String userInfo(){
+        return "exam3/user-info";
     }
 }
