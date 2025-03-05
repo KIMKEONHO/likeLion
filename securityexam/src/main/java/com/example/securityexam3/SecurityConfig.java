@@ -60,7 +60,6 @@ public class SecurityConfig {
                 .roles("SUPERUSER")
                 .build();
 
-
         return new InMemoryUserDetailsManager(user,user2,user3,user4);
     }
 
