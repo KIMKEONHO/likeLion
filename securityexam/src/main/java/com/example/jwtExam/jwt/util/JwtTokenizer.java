@@ -1,6 +1,5 @@
 package com.example.jwtExam.jwt.util;
 
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -14,46 +13,82 @@ import java.util.List;
 
 @Component
 public class JwtTokenizer {
-    private final byte[] accesssSecret;
+    private final byte[] accessSecret;
     private final byte[] refreshSecret;
 
-    public static Long ACCESS_TOKEN_EXPIRE_CONMT = 30 * 60 * 1000L; // 유지시간 30분
-    public static Long REFRESH_TOKEN_EXPIRE_COUNT = 7 * 24 * 60 * 30 * 1000L; // 유지시간 7일
+    public static final Long ACCESS_TOKEN_EXPIRE_COUNT=30*60*1000L;  //유지시간 30분
+    public static final Long REFRESH_TOKEN_EXPIRE_COUNT=7*24*60*60*1000L;  //유지시간 7일
 
-    public JwtTokenizer(@Value("${jwt.secretKey}")String accesssSecret, @Value("${jwt.refreshKey}")String refreshSecret) {
-        this.accesssSecret = accesssSecret.getBytes(StandardCharsets.UTF_8);
+    public JwtTokenizer(@Value("${jwt.secretKey}") String accessSecret, @Value("${jwt.refreshKey}") String refreshSecret) {
+        this.accessSecret = accessSecret.getBytes(StandardCharsets.UTF_8);
         this.refreshSecret = refreshSecret.getBytes(StandardCharsets.UTF_8);
     }
 
-    private String createToken(Long id, String email,String name, String username, List<String> roles,
-                               Long expires, byte[] SecretKey){
-
-        // 고유한 식별자 값으로 넣는게 좋다.
+    private String createToken(Long id, String email, String name, String username, List<String> roles,
+                               Long expire, byte[] secretKey){
         Claims claims = Jwts.claims().setSubject(email);
-        claims.put("name", name);
+        //필요한 정보들을 저장
         claims.put("username", username);
+        claims.put("name",name);
         claims.put("userId",id);
-        claims.put("roles", roles);
+        claims.put("roles",roles);
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime() + expires)) //expries 값이 1000 * 60 * 30 = 30분
-                .signWith(getSigningKey(SecretKey))
+                .setExpiration(new Date(new Date().getTime()+expire)) //expire 1000 * 60 * 60 1시간
+                .signWith(getSigningKey(secretKey))
                 .compact();
     }
 
-    private static Key getSigningKey(byte[] secretkey){
-        return Keys.hmacShaKeyFor(secretkey);
+    private static Key getSigningKey(byte[] secretKey){
+        return Keys.hmacShaKeyFor(secretKey);
+    }
+    //ACCESS Token 생성
+    public String createAccessToken(Long id, String email, String name, String username, List<String> roles){
+        return createToken(id,email,name,username,roles,ACCESS_TOKEN_EXPIRE_COUNT,accessSecret);
+    }
+    //Refresh Token 생성
+    public String createRefreshToken(Long id, String email, String name, String username, List<String> roles){
+        return createToken(id,email,name,username,roles,REFRESH_TOKEN_EXPIRE_COUNT,refreshSecret);
     }
 
-    // ACCESS TOKEN 생성
-    public String createAccessToken(Long id, String email,String name, String username, List<String> roles){
-        return createToken(id, email,name, username, roles, ACCESS_TOKEN_EXPIRE_CONMT, accesssSecret);
+    public Claims parseToken(String token, byte[] secretKey){
+        return  Jwts.parserBuilder()
+                .setSigningKey(getSigningKey(secretKey))
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
-    // REFRESH TOKEN 생성
-    public String createRefreshToken(Long id, String email,String name,  String username, List<String> roles){
-        return createToken(id, email, name, username, roles, ACCESS_TOKEN_EXPIRE_CONMT, refreshSecret);
+    public Claims parseAccessToken(String accessToken){
+        return parseToken(accessToken, accessSecret);
     }
+
+    public Claims parseRefreshToken(String refreshToken){
+        return parseToken(refreshToken, refreshSecret);
+    }
+
+    public Long getUserIdFromToken(String token){
+        //Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwidXNlcm5hbWUiOiJ0ZXN0dXNlciIsIm5hbWUiOiJ0ZXN0IiwidXNlcklkIjoxLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNzQxMjIyMjIzLCJleHAiOjE3NDEyMjQwMjN9.Mw2TmisHqjWyECxjRbSYMvja2L41r1-_7m4IllBLsS4
+        if(token == null || token.isBlank()){
+            throw new IllegalArgumentException("JWT 토큰이 없습니다.");
+        }
+
+        if(!token.startsWith("Bearer ")){
+            throw new IllegalArgumentException("유효하지 않은 형식입니다.");
+        }
+        Claims claims = parseToken(token, accessSecret);
+        if(claims == null){
+            throw new IllegalArgumentException("유효하지 않은 형식입니다.");
+        }
+        Object userId = claims.get("userId");
+        if(userId instanceof Number){
+            return ((Number)userId).longValue();
+        }else{
+            throw new IllegalArgumentException("JWT토큰에서 userId를 찾을 수 없습니다.");
+        }
+
+    }
+
 }
