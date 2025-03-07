@@ -1,9 +1,10 @@
 package com.example.jwtExam.jwt.filter;
 
-import com.example.jwtExam.jwt.toekn.JwtAuthenticationToken;
+import com.example.jwtExam.jwt.exception.JwtExceptionCode;
+import com.example.jwtExam.jwt.token.JwtAuthenticationToken;
 import com.example.jwtExam.jwt.util.JwtTokenizer;
 import com.example.jwtExam.security.dto.CustomUserDetails;
-import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.*;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -11,7 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -35,10 +36,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try{
                 Authentication authentication = getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            }catch (Exception e){
-                log.info("JWT Filter - Internal Error : {}", token, e);
+            }catch (ExpiredJwtException e){
+                request.setAttribute("exception", JwtExceptionCode.EXPIRED_TOKEN.getCode());
+                log.info("Expired token : {}", token, e);
                 SecurityContextHolder.clearContext();
-                throw new ServletException("JWT Filter - Internal Error ", e);
+                throw new BadCredentialsException("Expired token exception");
+            }catch (UnsupportedJwtException e){
+                request.setAttribute("exception", JwtExceptionCode.UNSUPPORTED_TOKEN.getCode());
+                log.info("Unsupported token : {}", token, e);
+                SecurityContextHolder.clearContext();
+                throw new BadCredentialsException("Unsupported token exception");
+            }catch (MalformedJwtException e){
+                request.setAttribute("exception", JwtExceptionCode.INVALID_TOKEN.getCode());
+                log.info("Invalid token : {}", token, e);
+                SecurityContextHolder.clearContext();
+                throw new BadCredentialsException("Invalid token exception");
+            } catch (IllegalArgumentException e){
+                request.setAttribute("exception", JwtExceptionCode.NOT_FOUND_TOKEN.getCode());
+                log.info("Not found token : {}", token, e);
+                SecurityContextHolder.clearContext();
+                throw new BadCredentialsException("Not found token exception");
+            } catch (Exception e){
+                log.info("JWT Filter - Internal Eroor : {}",token, e);
+                SecurityContextHolder.clearContext();
+                throw new BadCredentialsException("JWT Filter - Internal Eroor exception");
             }
 
         }

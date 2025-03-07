@@ -44,6 +44,7 @@ public class JwtTokenizer {
     private static Key getSigningKey(byte[] secretKey){
         return Keys.hmacShaKeyFor(secretKey);
     }
+
     //ACCESS Token 생성
     public String createAccessToken(Long id, String email, String name, String username, List<String> roles){
         return createToken(id,email,name,username,roles,ACCESS_TOKEN_EXPIRE_COUNT,accessSecret);

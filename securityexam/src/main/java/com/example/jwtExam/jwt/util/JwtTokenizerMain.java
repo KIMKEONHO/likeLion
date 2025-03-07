@@ -22,7 +22,7 @@ public class JwtTokenizerMain {
         System.out.println(claims.getSubject());
         System.out.println(claims.get("username"));
 
-        accessToken = "Bearer "+accessToken;
+        accessToken = "Bearer "+ accessToken;
         Long userIdFromToken = jwtTokenizer.getUserIdFromToken(accessToken);
         System.out.println(userIdFromToken);
     }
