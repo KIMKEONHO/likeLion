@@ -11,7 +11,7 @@ import lombok.Data;
 public class SocialUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String socialId;
     private String provider;

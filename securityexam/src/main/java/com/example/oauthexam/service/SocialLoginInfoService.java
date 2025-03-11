@@ -13,8 +13,8 @@ import java.util.Optional;
 public class SocialLoginInfoService {
     private final SocialLoginInfoRepository socialLoginInfoRepository;
 
-    @Transactional(readOnly = true)
-    public SocialLoginInfo saveSocialLoginInfo(String provider, String socialId) {
+    @Transactional
+    public SocialLoginInfo saveSocialLoginInfo(String provider, String socialId){
         SocialLoginInfo socialLoginInfo = new SocialLoginInfo();
         socialLoginInfo.setProvider(provider);
         socialLoginInfo.setSocialId(socialId);
@@ -22,7 +22,7 @@ public class SocialLoginInfoService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<SocialLoginInfo> findByProviderAndUuidAndSocialId(String provider,String uuid, String socialId) {
-        return socialLoginInfoRepository.findByProvierAndUuidAndSocialId(provider, uuid, socialId);
+    public Optional<SocialLoginInfo> findByProviderAndUuidAndSocialId(String provider, String uuid, String socialId){
+        return socialLoginInfoRepository.findByProviderAndUuidAndSocialId(provider,uuid,socialId);
     }
 }

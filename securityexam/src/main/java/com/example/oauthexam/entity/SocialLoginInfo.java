@@ -21,11 +21,9 @@ public class SocialLoginInfo {
     private LocalDateTime createAt;
     private String uuid;
 
-    public SocialLoginInfo() {
-
-        // 소셜 로그인 이후에 특정한 시간까지만 추가 작업이 가능.
+    public SocialLoginInfo(){
+        //소셜 로그인 이후에 특정한 시간까지만 추가 작업이 가능 하게 하려고!!
         this.createAt = LocalDateTime.now();
         this.uuid = UUID.randomUUID().toString();
     }
-
 }

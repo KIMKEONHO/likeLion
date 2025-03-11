@@ -1,5 +1,6 @@
 package com.example.oauthexam.entity;
 
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,9 +27,11 @@ public class User {
     @Column(name = "registration_date", nullable = false, updatable = false)
     private LocalDateTime registrationDate = LocalDateTime.now();
 
-    // 추가
+    //컬럼 추가.
+    @Column(name = "social_id")
     private String socialId;
     private String provider;
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
