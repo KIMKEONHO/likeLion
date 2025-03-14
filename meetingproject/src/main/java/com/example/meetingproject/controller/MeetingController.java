@@ -103,7 +103,7 @@ public class MeetingController {
         meetingParticipantService.save(meetingParticipant);
 
         // 참가 로직
-        return ResponseEntity.ok("");
+        return ResponseEntity.ok("모임 참가 성공!");
     }
 
     @PutMapping("/{meetingId}")

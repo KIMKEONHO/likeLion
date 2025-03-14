@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -14,11 +16,20 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title", length = 50)
+    @Column(name = "title", length = 50, nullable = false)
     private String title;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
+
+    @Column(name = "meeting_date", nullable = false)
+    private LocalDate meetingDate;
+
+    @Column(name = "meeting_time", nullable = false)
+    private LocalTime meetingTime;
+
+    @Column(name = "location", nullable = false)
+    private String location;
 
     @ManyToOne
     @JoinColumn(name = "meeting_id")

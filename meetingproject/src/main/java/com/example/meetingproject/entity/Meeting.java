@@ -17,11 +17,11 @@ public class Meeting {
     @Column(nullable = false, name = "title")
     private String title;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "maxParticipants")
-    private Integer maxParticipants;
+    @Column(name = "maxParticipants", columnDefinition = "INT DEFAULT 10")
+    private Integer maxParticipants = 10;
 
     @ManyToOne
     @JoinColumn(name = "creator_id")

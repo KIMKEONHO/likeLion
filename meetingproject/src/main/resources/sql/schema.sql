@@ -21,7 +21,7 @@ CREATE TABLE meetings (
                           id BIGINT PRIMARY KEY AUTO_INCREMENT,
                           title VARCHAR(100) NOT NULL,
                           description TEXT,
-                          maxParticipants INT,
+                          maxParticipants INT DEFAULT 10,
                           creator_id BIGINT NOT NULL,
                           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                           FOREIGN KEY (creator_id) REFERENCES users(id) ON DELETE CASCADE
@@ -42,8 +42,11 @@ CREATE TABLE schedules (
                            meeting_id BIGINT NOT NULL,
                            title VARCHAR(100) NOT NULL,
                            description TEXT,
+                           location VARCHAR(100) NOT NULL,
                            created_by BIGINT NOT NULL,
                            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                           meeting_date DATE NOT NULL,
+                           meeting_time TIME NOT NULL,
                            FOREIGN KEY (meeting_id) REFERENCES meetings(id) ON DELETE CASCADE,
                            FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -77,10 +80,10 @@ INSERT INTO meeting_participants (meeting_id, user_id) VALUES
                                                            (3, 2),
                                                            (3, 3);
 
-INSERT INTO schedules (meeting_id, title, description, created_by) VALUES
-                                                                       (1, 'Action Items', 'List of action items from the meeting.', 1),
-                                                                       (2, 'Performance Review', 'Detailed review of performance metrics.', 2),
-                                                                       (3, 'Project Timeline', 'Overview of the project timeline and milestones.', 1);
+INSERT INTO schedules (meeting_id, title, description, created_by, meeting_date, meeting_time, location) VALUES
+                                                                                                   (1, 'Action Items', 'List of action items from the meeting.', 1, '2025-02-25', '14:00', 'online'),
+                                                                                                   (2, 'Performance Review', 'Detailed review of performance metrics.', 2, '2025-02-25', '14:00', 'online'),
+                                                                                                   (3, 'Project Timeline', 'Overview of the project timeline and milestones.', 1, '2025-02-25', '14:00', 'online');
 
 INSERT INTO schedule_participants (schedule_id, user_id) VALUES
                                                              (1, 1),
