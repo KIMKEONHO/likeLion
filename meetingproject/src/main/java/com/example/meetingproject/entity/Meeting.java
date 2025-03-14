@@ -20,12 +20,15 @@ public class Meeting {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "maxParticipants")
+    private Integer maxParticipants;
+
     @ManyToOne
-    @JoinColumn(name = "createor_id")
+    @JoinColumn(name = "creator_id")
     private User creater;
 
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL)
-    private List<MeetingParticipant> meetings;
+    private List<MeetingParticipant> meetingparticipants;
 
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL)
     private List<Schedule> schedules;

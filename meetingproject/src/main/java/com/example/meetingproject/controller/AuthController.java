@@ -5,7 +5,9 @@ import com.example.meetingproject.dto.Request.SignUpRequestDto;
 import com.example.meetingproject.dto.Response.SignupResponseDto;
 import com.example.meetingproject.entity.User;
 import com.example.meetingproject.service.UserService;
+import com.example.meetingproject.util.JwtUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+
 @RestController
 @RequestMapping("/auth")
 @Tag(name = "회원 관리 컨트롤러")
@@ -25,6 +29,7 @@ public class AuthController {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @PostMapping("/register")
     @Operation(
@@ -53,21 +58,25 @@ public class AuthController {
             description = "입력 필드를 기반으로 이메일 중복 확인 후 패스워드 비교",
             tags = "회원 관리 컨트롤러"
     )
-    public ResponseEntity<String> login(@RequestBody SignUpRequestDto requestDto) {
+    public ResponseEntity<?> login(@RequestBody SignUpRequestDto requestDto) {
         String email = requestDto.getEmail();
         String password = requestDto.getPassword();
 
         if (!userService.isEmailDuplicate(email)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패: 잘못된 이메일 또는 비밀번호.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Collections.singletonMap("error", "Invalid credentials"));
         }
 
         User user = userService.findByEmail(email).get();
 
         if (user == null || !userService.checkPassword(password, user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패: 잘못된 이메일 또는 비밀번호.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Collections.singletonMap("error", "Invalid credentials"));
         }
 
-        return ResponseEntity.ok("로그인 성공: " + email);
+        String token = jwtUtil.generateToken(user.getId());
+
+        return ResponseEntity.ok(Collections.singletonMap("token", token));
     }
 
     @PostMapping("/logout")
@@ -76,10 +85,16 @@ public class AuthController {
             description = "로그인되어 있는 회원 정보 반납",
             tags = "회원 관리 컨트롤러"
     )
-    public ResponseEntity<String> logout() {
+    public ResponseEntity<String> logout(
+            @Parameter(description = "JWT 인증 토큰", required = true, example = "Bearer eyJhbGciOiJIUzI....")
+            @RequestHeader("Authorization") String token
+    ){
 
-        // 로그아웃 로직
-        return ResponseEntity.ok("로그아웃 되었습니다.");
+        String jwtToken = token.startsWith("Bearer ") ? token.substring(7) : token;
+
+        jwtUtil.invalidateToken(jwtToken);
+
+        return ResponseEntity.ok("로그아웃 성공");
     }
 
     @PostMapping("/check-email/")

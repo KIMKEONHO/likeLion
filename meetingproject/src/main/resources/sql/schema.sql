@@ -21,6 +21,7 @@ CREATE TABLE meetings (
                           id BIGINT PRIMARY KEY AUTO_INCREMENT,
                           title VARCHAR(100) NOT NULL,
                           description TEXT,
+                          maxParticipants INT,
                           creator_id BIGINT NOT NULL,
                           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                           FOREIGN KEY (creator_id) REFERENCES users(id) ON DELETE CASCADE
@@ -63,10 +64,10 @@ INSERT INTO users (username, password, email) VALUES
                                                   ('user2', '$2a$10$R0I8ZBlD8d0T0aF2ZZjM.J7yq8P3gD2T8Kj0D1Pz8oFbe8J1Yd9K', 'user2@example.com'), -- 비밀번호: password2
                                                   ('user3', '$2a$10$J9F8KBlD8d0T0aF2ZZjM.J7yq8P3gD2T8Kj0D1Pz8oFbe8J1Yd9K', 'user3@example.com'); -- 비밀번호: password3
 
-INSERT INTO meetings (title, description, creator_id) VALUES
-                                                          ('Weekly Team Meeting', 'Discuss project updates and tasks.', 1),
-                                                          ('Monthly Review', 'Review monthly performance and metrics.', 2),
-                                                          ('Project Kickoff', 'Kickoff meeting for the new project.', 1);
+INSERT INTO meetings (title, description, creator_id, maxParticipants) VALUES
+                                                          ('Weekly Team Meeting', 'Discuss project updates and tasks.', 1, 10),
+                                                          ('Monthly Review', 'Review monthly performance and metrics.', 2, 10),
+                                                          ('Project Kickoff', 'Kickoff meeting for the new project.', 1, 10);
 
 INSERT INTO meeting_participants (meeting_id, user_id) VALUES
                                                            (1, 1),

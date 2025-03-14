@@ -34,4 +34,9 @@ public class UserService {
     public boolean checkPassword(String plainPassword, String hashedPassword) {
         return passwordEncoder.matches(plainPassword, hashedPassword);
     }
+
+    public Optional<User> findById(Long userId) {
+        return userRepository.findById(userId);
+    }
+
 }

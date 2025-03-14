@@ -15,13 +15,6 @@ public class PageController {
         return "/main/login";
     }
 
-    @GetMapping("/meetings/{meetingId}/participants")
-    public String participants(@PathVariable("meetingId") int meetingId) {
-
-        // 모임 참가자 목록 조회
-        return "participants";
-    }
-
     @GetMapping("/meetings/{meetingId}/schedules")
     public String schedules(Model model, @PathVariable("meetingId") String meetingId) {
 
@@ -34,13 +27,6 @@ public class PageController {
 
         // 특정 일정 참가자 목록 조회
         return "participants";
-    }
-
-    @GetMapping("/meetings")
-    public String meetings() {
-
-        // 조회 로직
-        return "meetings";
     }
 
     @GetMapping("/welcome")
