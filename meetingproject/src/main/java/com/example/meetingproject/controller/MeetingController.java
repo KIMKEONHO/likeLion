@@ -123,6 +123,7 @@ public class MeetingController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
+//      Meeting meeting = meetingRequestDto.toEntity()
         Meeting meeting = meetingService.findById(meetingId);
         meeting.setDescription(meetingRequestDto.getDescription());
         meeting.setTitle(meetingRequestDto.getTitle());

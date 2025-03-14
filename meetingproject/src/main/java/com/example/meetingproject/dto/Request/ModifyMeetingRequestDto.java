@@ -10,4 +10,11 @@ public class ModifyMeetingRequestDto {
     private String description;
     private Integer maxParticipants;
 
+    public Meeting toEntity(){
+        Meeting meeting = new Meeting();
+        meeting.setTitle(title);
+        meeting.setDescription(description);
+        meeting.setMaxParticipants(maxParticipants);
+        return meeting;
+    }
 }
